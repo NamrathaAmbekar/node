@@ -1,5 +1,6 @@
 var url = require("url");
     fs = require("fs"),
+    path =require("path"),
     formidable = require("formidable");
 function displayForm(response) {
     console.log("Request handler 'start' was called.");
@@ -25,7 +26,7 @@ function upload(response, request) {
     var form = new formidable.IncomingForm();
     console.log("about to parse");
     var filename;
-    form.uploadDir = __dirname + '/uploads/';
+    form.uploadDir = path.join(__dirname, 'uploads');
         form.on('file', function(field, file) {
         //rename the incoming file to the file's name
              filename = file.name;
@@ -57,7 +58,8 @@ function show(response,request){
 
 }
 function displayFileContent(response,request,filename) {
-    var filename =  __dirname + '/uploads/'+filename;
+
+    var filename =  path.join(__dirname, '/uploads/',filename);
     console.log(filename)
 
     // This line opens the file as a readable stream
@@ -66,7 +68,7 @@ function displayFileContent(response,request,filename) {
     // This will wait until we know the readable stream is actually valid before piping
     readStream.on('open', function () {
         response.writeHead(200, {"Content-Type": "text/html"});
-        response.write("received file:<br/>");
+        response.write("file content:<br/>");
         readStream.pipe(response);
     });
 
