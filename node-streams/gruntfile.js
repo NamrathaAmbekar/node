@@ -1,26 +1,23 @@
 module.exports = function(grunt) {
-
-
     grunt.initConfig({
-        // ...
 
-        watch: {
-
-           app: {
-                files: "*.js"
+        pkg: grunt.file.readJSON('package.json'),
+          nodemon: {
+            dev: {
+                script: './index.js'
             }
-
         }
 
-        // ...
-    })
-    grunt.registerTask('start', function () {
-        grunt.util.spawn(
-            { cmd: 'node'
-                , args: ['index.js']
-            })
+    });
 
-        grunt.task.run('watch:app')
-    })
-    grunt.loadNpmTasks('grunt-contrib-watch');
+
+    grunt.loadNpmTasks('grunt-nodemon');
+
+    grunt.registerTask('start', '', function() {
+        var taskList = [
+            'nodemon'
+        ];
+        grunt.task.run(taskList);
+    });
+
 };
